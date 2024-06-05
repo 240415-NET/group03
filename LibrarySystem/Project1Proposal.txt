@@ -1,0 +1,7 @@
+A library checkout system for users and book tracking.
+-User can create a account with library via console
+-User can interact to search a book with console
+-User can interact to see the top best books for the month
+-User can checkout books they like
+-User can view all book that are checkout at moment, and list is by cloest checkout date. Due soon status.
+-User can check in books, with status of past due or on time. 
