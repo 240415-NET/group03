@@ -1,8 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace LibrarySystem.API.Models;
 
 public class User
 {
    
+    [Key]
     public Guid userId {get; set;}
     public string userName {get; set;}
 
