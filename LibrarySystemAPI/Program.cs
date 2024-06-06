@@ -12,14 +12,18 @@ builder.Services.AddScoped<IUserService, UserService>();
 // This adds our UserStorageEFRepo (data-access layer), that our UserService asks for.
 builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
 
-builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 //Connections
-string connectionString = File.ReadAllText(@"onnectionstring.txt");
+string connectionString = File.ReadAllText(@"connectionstring.txt");
 builder.Services.AddDbContext<LibrarySystemContext>(options => options.UseSqlServer(connectionString));
+
+
+builder.Services.AddControllers();
+
 
 var app = builder.Build();
 
