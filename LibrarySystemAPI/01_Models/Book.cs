@@ -11,7 +11,7 @@ public class Book {
     public Book () {}
 
     public Book( int _barcode, string _title, string _author, string _genre){
-        index = _index;
+        
         barcode = _barcode;
         title = _title;
         author = _author;
