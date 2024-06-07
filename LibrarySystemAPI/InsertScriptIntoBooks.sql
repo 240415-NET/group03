@@ -1,4 +1,4 @@
---SET IDENTITY_INSERT dbo.Books OFF;
+--SET IDENTITY_INSERT dbo.Books OFF ;
 
 INSERT INTO Books(barcode, title, author, genre) 
 VALUES
