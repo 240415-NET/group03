@@ -9,6 +9,8 @@ public class User
     public Guid userId {get; set;}
     public string userName {get; set;}
 
+     public List<Checkout> userCheckouts {get; set;} = new();
+
     public User() {}
 
     //This constructor takes two arguments
