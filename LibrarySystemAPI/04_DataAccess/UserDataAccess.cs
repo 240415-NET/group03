@@ -18,4 +18,13 @@ public class UserDataAccess : IUserDataAccess
         await _context.SaveChangesAsync();
         return userFromServiceClass;
     }
+
+    public async Task<string?> DeleteUserInDBAsync(string userFromServiceClass)
+    {
+        var user = _context.Users.FirstOrDefault(u => u.userName==userFromServiceClass);
+
+        _context.Users.Remove(user); //_context establishing the connection iwth database , Insert into 
+        await _context.SaveChangesAsync();
+        return userFromServiceClass;
+    }
 }

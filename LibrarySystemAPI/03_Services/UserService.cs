@@ -18,4 +18,11 @@ public class UserService : IUserService
        return userFromControllerClass; //do not need ok, this is a Task User 
        //Task action result this when we need the Ok();
     }
+
+     public async Task<string> DeleteUserAsync(string userFromControllerClass)
+    {
+       await _userDataAccess.DeleteUserInDBAsync(userFromControllerClass);
+       return userFromControllerClass; //do not need ok, this is a Task User 
+       //Task action result this when we need the Ok();
+    }
 }
