@@ -21,8 +21,11 @@ public class UserDataAccess : IUserDataAccess
 
     public async Task<string?> DeleteUserInDBAsync(string userFromServiceClass)
     {
+        //in swagger we enter a name
+        //with the name, the user object is retrieved
         var user = _context.Users.FirstOrDefault(u => u.userName==userFromServiceClass);
 
+        //the user object is removed
         _context.Users.Remove(user); //_context establishing the connection iwth database , Insert into 
         await _context.SaveChangesAsync();
         return userFromServiceClass;
