@@ -6,11 +6,22 @@ using LibrarySystem.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+/*************** Add services to the container. **********************************/
 // This adds our UserService, that our UserController then asks for
 builder.Services.AddScoped<IUserService, UserService>();
-// This adds our UserStorageEFRepo (data-access layer), that our UserService asks for.
+// This adds our UserDataAccess (data-access layer), that our UserService asks for.
 builder.Services.AddScoped<IUserDataAccess, UserDataAccess>();
+
+// This adds our BookService, that our BookController then asks for
+builder.Services.AddScoped<IBookService, BookService>();
+// This adds our BookDataAccess (data-access layer), that our BookService asks for.
+builder.Services.AddScoped<IBookDataAccess, BookDataAccess>();
+
+// This adds our CheckoutService, that our CheckoutController then asks for
+builder.Services.AddScoped<ICheckoutService, CheckoutService>();
+// This adds our CheckoutDataAccess (data-access layer), that our CheckoutService asks for.
+builder.Services.AddScoped<ICheckoutDataAccess, CheckoutDataAccess>();
+/*************** End Add services to the container. *******************************/
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

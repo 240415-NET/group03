@@ -4,7 +4,7 @@ namespace LibrarySystem.API.Models;
 //Added this File
 
 public class Book {
-[Key]    
+    [Key]    
     public int barcode {get; set;}
     public string title {get; set;}
     public string author {get; set;}
