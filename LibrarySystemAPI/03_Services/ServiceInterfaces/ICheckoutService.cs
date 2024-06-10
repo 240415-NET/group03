@@ -5,5 +5,5 @@ namespace LibrarySystem.API.Services;
 
 public interface ICheckoutService
 {
-
+    public Task<checkoutDTO> CreateNewCheckoutAsync(checkoutDTO newCheckoutFromController);
 }
