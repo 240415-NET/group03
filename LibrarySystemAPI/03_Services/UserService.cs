@@ -19,6 +19,11 @@ public class UserService : IUserService
        //Task action result this when we need the Ok();
     }
 
+    public async Task<string> UpdateUsernameAsync(UsernameUpdateDTO usernamesToSwapFromController)
+    {
+        return await _userDataAccess.UpdateUserInDBAsync(usernamesToSwapFromController);
+    }
+
      public async Task<string> DeleteUserAsync(string userFromControllerClass)
     {
        await _userDataAccess.DeleteUserInDBAsync(userFromControllerClass);

@@ -6,4 +6,5 @@ public interface IUserDataAccess
 {
   public Task<User?> CreateNewUserInDBAsync(User userFromServiceClass);
   public Task<string?> DeleteUserInDBAsync(string userFromServiceClass);
+  public Task<string> UpdateUserInDBAsync(UsernameUpdateDTO usernamesToSwapFromUserService);
 }
