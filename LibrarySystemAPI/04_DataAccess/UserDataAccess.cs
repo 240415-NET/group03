@@ -29,5 +29,18 @@ public class UserDataAccess : IUserDataAccess
         _context.Users.Remove(user); //_context establishing the connection iwth database , Insert into 
         await _context.SaveChangesAsync();
         return userFromServiceClass;
+     public async Task<string> UpdateUserInDBAsync(UsernameUpdateDTO usernamesToSwapFromUserService)
+    {
+        //We create a nullable user object to hold our database return
+        //We will query the database for a user who corresponds to the UsernameUpdateDTO's oldUsername string
+        User? userToUpdate = await _context.Users
+            .SingleOrDefaultAsync(user => user.userName == usernamesToSwapFromUserService.oldUserName);
+
+        userToUpdate.userName = usernamesToSwapFromUserService.newUserName;
+        
+        await _context.SaveChangesAsync();
+
+        return usernamesToSwapFromUserService.newUserName;
+
     }
 }

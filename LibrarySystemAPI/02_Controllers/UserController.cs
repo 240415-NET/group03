@@ -5,7 +5,7 @@ using LibrarySystem.API.Services;
 namespace LibrarySystem.API.Controllers;
 
 [ApiController]
-[Route("User")]
+[Route("Users")]
 public class UserController : ControllerBase
 {
  private readonly IUserService _userService;
@@ -15,7 +15,7 @@ public class UserController : ControllerBase
         _userService = userServiceFromBuilder;
     }
 
- [HttpPost("Users/{username}")]
+ [HttpPost("{username}")]
   public async Task<ActionResult<User>> PostNewUser(string username)
     {
              User newUser = new User(username); //From Controller
@@ -35,4 +35,12 @@ public class UserController : ControllerBase
              return Ok($"User {username} got deleted");
 
     }
+
+   [HttpPatch("UserPatch")]
+    public async Task<ActionResult> UpdateUserByUsername(UsernameUpdateDTO usernamesToSwap)
+    {
+          await _userService.UpdateUsernameAsync(usernamesToSwap);
+
+          return Ok($"{usernamesToSwap.oldUserName}'s username has been changed to: {usernamesToSwap.newUserName}");
+    } 
 }
