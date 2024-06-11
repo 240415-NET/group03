@@ -10,4 +10,8 @@ public interface IUserService
  public Task<string> UpdateUsernameAsync(UsernameUpdateDTO usernamesToSwapFromController);
 
  public  Task<string> DeleteUserAsync(string userFromControllerClass);
+ public Task<User> GetUserByUsernameAsync(string usernameToFindFromController);
+
+ public Task<bool> UserExistsAsync(string usernameToFindFromController);
+
 }

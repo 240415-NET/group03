@@ -30,4 +30,41 @@ public class UserService : IUserService
        return userFromControllerClass; //do not need ok, this is a Task User 
        //Task action result this when we need the Ok();
     }
+    
+    public async Task<User> GetUserByUsernameAsync(string usernameToFindFromController)
+    {
+        if(String.IsNullOrEmpty(usernameToFindFromController))
+        {
+            throw new Exception("Cannot pass in a null or empty string!");
+        }
+        
+        try
+        {   
+
+            
+            User? foundUser =  await _userDataAccess.GetUserFromDBByUsernameAsync(usernameToFindFromController);
+
+
+           
+            if(foundUser == null)
+            {
+                throw new Exception("User not found in DB?");
+            }
+
+            return foundUser;
+
+
+        }
+        catch(Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+
+    }
+    public async Task<bool> UserExistsAsync(string usernameToFindFromController)
+    {
+        return await _userDataAccess.DoesThisUserExistOnDBAsync(usernameToFindFromController);
+    } 
+
+    
 }

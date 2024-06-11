@@ -44,4 +44,16 @@ public class UserDataAccess : IUserDataAccess
         return usernamesToSwapFromUserService.newUserName;
 
     }
+
+    public async Task<User?> GetUserFromDBByUsernameAsync(string usernameToFindFromUserService)
+    {
+        User? foundUser = await _context.Users.SingleOrDefaultAsync(user => user.userName == usernameToFindFromUserService);   
+        return foundUser;
+    }
+     public async Task<bool> DoesThisUserExistOnDBAsync(string usernameToFindFromUserService)
+    {
+       
+        return await _context.Users.AnyAsync(user => user.userName == usernameToFindFromUserService);
+
+    }
 }

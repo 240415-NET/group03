@@ -43,4 +43,19 @@ public class UserController : ControllerBase
 
           return Ok($"{usernamesToSwap.oldUserName}'s username has been changed to: {usernamesToSwap.newUserName}");
     } 
+
+     [HttpGet("/Users/{username}")] 
+    public async Task<ActionResult<User>> GetUserByUsername(string username)
+    {   
+        //Again, we are going to start with a try catch, so that we can NOT crash our API if something goes wrong,
+        //and ideally, we can inform the front end so it can inform the user
+        try
+        {
+            return await _userService.GetUserByUsernameAsync(username);
+        }
+        catch(Exception e)
+        {
+            return NotFound(e.Message);
+        }
+    }
 }
