@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("images/background.png");
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+
+
+.logo img {
+    height: 150px;
+}
+
+.check {
+    text-align: center;
+}
+
+
+
+.check .tabs {
+    margin: 10px 0;
+}
+
+.check .tabs span {
+    margin: 0 10px;
+    color: #333;
+    cursor: pointer;
+}
+
+input {
+    width: 50%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 0 0 4px #999966;
+}
+
+button, .button {
+    padding: 10px 20px;
+    width: 100px;
+    background-color: #cd0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+main {
+    background-color: #f7f7f7;
+    padding: 20px;
+    text-align: center;
+}
+
+footer, nav {
+    background-color: #666699;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer-links a, nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+}
+
+.all table {
+    display: flex;
+    justify-content: center;
+}
+
+#sign-in-message {
+    color: #cd0000;
+}
+.bullet {
+    color: #9999ff;
+}
+
+#create-form {
+    display: none;
+}
+
+.user-options-div {
+    display: none;
+}
