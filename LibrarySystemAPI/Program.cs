@@ -6,6 +6,19 @@ using LibrarySystem.API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var myBadCorsPolicy = "_myBadCorsPolicy";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myBadCorsPolicy,
+    policy =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyMethod();
+        policy.AllowAnyHeader();
+    });
+});
+
 /*************** Add services to the container. **********************************/
 // This adds our UserService, that our UserController then asks for
 builder.Services.AddScoped<IUserService, UserService>();
@@ -46,6 +59,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(myBadCorsPolicy);
 
 app.UseAuthorization();
 
