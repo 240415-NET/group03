@@ -10,7 +10,7 @@ MVP:
 # Backend
 ## User
 1. Create - Team Done :)
-2. Read - TO-DO! **Mike&Veda**
+2. Read - TO-DO! **Mike&Veda** Done:)
 3. Update - Yenny Done :)
     - username 
 4. Delete - Omar Done :)
@@ -23,12 +23,13 @@ MVP:
 2. Checkin book
     - by book title and username - TO-DO!  **Yenny**
     - ensure book is out by username - TO-DO! **Yenny**
-3. List checked out books for a user - TO-DO! **Mike&Veda**
+3. List checked out books for a user - TO-DO! **Mike&Veda** Done :)
 
 
 ## Backend Misc
 - try catch
 - messages
+- CORS to program file - **Ross** Done :)
 
 # Frontend
 ## Login
