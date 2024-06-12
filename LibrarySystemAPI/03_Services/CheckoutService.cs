@@ -17,4 +17,9 @@ public class CheckoutService : ICheckoutService
         await _checkoutDataAccess.CreateNewCheckoutAsync(newCheckoutFromController);
         return newCheckoutFromController;
     }
+    public async Task<checkoutDTO> BooksAvailableForCheckoutAsync(checkoutDTO newCheckoutFromController)
+    {
+        await _checkoutDataAccess.BooksAvailableForCheckoutAsync(newCheckoutFromController);
+        return newCheckoutFromController;
+    }
 }

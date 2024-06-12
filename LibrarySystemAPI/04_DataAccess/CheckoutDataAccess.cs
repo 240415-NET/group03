@@ -28,4 +28,15 @@ public class CheckoutDataAccess : ICheckoutDataAccess
 
         return newCheckoutFromService;
     }
+
+    public async Task<List<string>> BooksAvailableForCheckoutAsync(checkoutDTO newCheckoutFromService)
+    {
+                User? patron = await _checkoutContext.Users.SingleOrDefaultAsync(u => u.userId == newCheckoutFromService.userId);
+
+        //get the book object
+        Book? tome = await _checkoutContext.Books.SingleOrDefaultAsync(b => b.barcode == newCheckoutFromService.bookBarcode);
+        Checkout checkOut = await _checkoutContext.Checkouts.Select(b => b);
+        return null;
+    }
+    
 }
