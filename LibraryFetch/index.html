@@ -13,7 +13,7 @@
     <div class="container">
         <header>
             <div class="logo">
-                <img src="images/logo.png" alt="Ask Jeeves Logo">
+                <img src="images/logo.png" alt="Ask Yenny Logo" id="logo-image">
             </div>
         </header>
         <nav class="user-options-div">
@@ -25,8 +25,7 @@
             <div id="login-div">
                 <h1 id="login-header">Sign In to Ask Yenny!</h1>
                 <form id="sign-in-form" class="login-elements">
-                    <p id="sign-in-message" style="display: none;">Something went wrong.<br></p>
-                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="text" id="login-username" placeholder="Username" required>
                     <button type="submit">Submit</button>
                 </form>
 
@@ -35,6 +34,7 @@
                     <button type="submit">Create</button>
                 </form>
                 <p><a href="#" onclick="toggleLoginElementsDisplay(event)" id="toggle-link">Create New User</a></p>
+                <p id="login-message"></p>
             </div>
 
             <div class="menu user-options-div" style="display: none;">
@@ -48,13 +48,19 @@
                     </table>
                 </div>
 
-                <div class="user options" id="check"></div>
+                <div class="user options" id="check">
+                    <table>
+                        <th>Barcode</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Genre</th>
+                    </table>
+                </div>
 
                 <div class="check options" id="user" style="display: none;">
 
                     <h1>What can I help you find today?</h1>
                     <input type="text" placeholder="INPUT BARCODE">
-                    <button>Ask</button>
                     <button>Ask</button>
                 </div>
 
@@ -64,7 +70,7 @@
         <footer>
             <div class="footer-links">
                 <a href="#"><span class="bullet">&bull;</span> Make Yenny Your Homepage</a>
-                <a href="#"><span class="bullet">&bull;</span> Ask Yenny U.K.</a>
+                <a href="#" onclick="YennyUK()"><span class="bullet">&bull;</span> Ask Yenny U.K.</a>
                 <a href="#"><span class="bullet">&bull;</span> Advertise On Yenny</a>
                 <a href="#"><span class="bullet">&bull;</span> Become An Affiliate</a>
                 <a href="#"><span class="bullet">&bull;</span> Investor Relations</a>
