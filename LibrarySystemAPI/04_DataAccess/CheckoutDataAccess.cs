@@ -40,7 +40,7 @@ public class CheckoutDataAccess : ICheckoutDataAccess
 
                 //retrieve the list of all books from the Books table
                 List<Book> booksAll = await _checkoutContext.Books.Select(x=>x).Where(x=>x.genre=="Fantasy").ToListAsync();
-                booksAll.ForEach(x=>Console.WriteLine($"{x.barcode}-{x.title}-{x.author}-{x.genre}"));
+                //booksAll.ForEach(x=>Console.WriteLine($"{x.barcode}-{x.title}-{x.author}-{x.genre}"));
 
                 //get the barcodes from CheckOut that we need to exclude
                 List<int> checkedOutBarCodes = booksCheckedOut.Select(d => d.checkoutBook.barcode).ToList();
