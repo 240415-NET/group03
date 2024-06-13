@@ -29,17 +29,26 @@ public class CheckoutDataAccess : ICheckoutDataAccess
         return newCheckoutFromService;
     }
 
-    public async Task<checkoutDTO> booksAvailableForCheckoutAsync()
+    public async Task<List<Book>> booksAvailableForCheckoutAsync()
     {
-                List<Checkout> booksAvailable = await _checkoutContext.Checkouts.Select(u => u)
+                //retrieve the list of checked out books
+                List<Checkout> booksCheckedOut = await _checkoutContext.Checkouts.Where(u => u.status=="out")
                     .Include(u => u.checkoutBook)
                     .Include(u=> u.checkoutUser)
                     .ToListAsync();
-                booksAvailable.ForEach(x=>Console.WriteLine($"{x.checkoutId} {x.checkoutBook.barcode} {x.checkoutBook.author} {x.checkoutBook.genre} {x.status}"));
+                //booksAvailable.ForEach(x=>Console.WriteLine($"{x.checkoutBook.barcode}-{x.status}"));
 
-                List<Book> booksAvailable1 = await _checkoutContext.Books.Select(x=>x).Where(x=>x.genre=="Fantasy").ToListAsync();
-                booksAvailable1.ForEach(x=>Console.WriteLine($"{x.author} {x.barcode} {x.title}"));
-        return null;
+                List<Book> booksAll = await _checkoutContext.Books.Select(x=>x).Where(x=>x.genre=="Fantasy").ToListAsync();
+                booksAll.ForEach(x=>Console.WriteLine($"{x.barcode}-{x.title}-{x.author}-{x.genre}"));
+
+                // List<Book> bF = booksAvailable.Select(x => x.checkoutBook.barcode)
+                //                 .Except(booksAvailable1.Select(x => x.barcode)).ToList();
+                List<int> checkedOutBarCodes = booksCheckedOut.Select(d => d.checkoutBook.barcode).ToList();
+                //checkedOutBarCodes.ForEach(x=>Console.WriteLine(x));
+                List<Book> booksAvailable = booksAll.Where(x => !checkedOutBarCodes.Contains(x.barcode)).ToList();
+                //booksAvailable.ForEach(x=>Console.WriteLine($"{x.barcode}-{x.title}-{x.genre}"));
+
+        return booksAvailable;
     }
     
 }
