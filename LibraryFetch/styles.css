@@ -1,8 +1,28 @@
+/* Element tags */
+
 body {
     font-family: Arial, sans-serif;
     background-image: url("images/background.png");
     margin: 0;
     padding: 0;
+}
+
+button,
+.button {
+    padding: 10px 20px;
+    width: 100px;
+    background-color: #cd0000;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+footer,
+nav {
+    background-color: #666699;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
 }
 
 header {
@@ -12,27 +32,39 @@ header {
     padding: 20px 0;
 }
 
-h1 {
+h1, table th {
     font-size: 24px;
     color: #333;
 }
 
-.container {
-    width: 80%;
-    margin: 0 auto;
+input {
+    width: 50%;
+    padding: 10px;
+    margin-right: 10px;
+    border: 1px solid gray;
+    box-shadow: 0 0 0 4px #999966;
 }
 
+main {
+    background-color: #f7f7f7;
+    padding: 20px;
+    text-align: center;
+}
 
+/* Classes */
 
-.logo img {
-    height: 150px;
+.all table, .user table {
+    display: flex;
+    justify-content: center;
+}
+
+.bullet {
+    color: #9999ff;
 }
 
 .check {
     text-align: center;
 }
-
-
 
 .check .tabs {
     margin: 10px 0;
@@ -44,58 +76,35 @@ h1 {
     cursor: pointer;
 }
 
-input {
-    width: 50%;
-    padding: 10px;
-    margin-right: 10px;
-    border: 1px solid gray;
-    box-shadow: 0 0 0 4px #999966;
+.container {
+    width: 80%;
+    margin: 0 auto;
 }
 
-button, .button {
-    padding: 10px 20px;
-    width: 100px;
-    background-color: #cd0000;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-main {
-    background-color: #f7f7f7;
-    padding: 20px;
-    text-align: center;
-}
-
-footer, nav {
-    background-color: #666699;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-}
-
-.footer-links a, nav a {
+.footer-links a,
+nav a {
     color: white;
     margin: 0 15px;
     text-decoration: none;
 }
 
-.all table {
-    display: flex;
-    justify-content: center;
-}
-
-#sign-in-message {
-    color: #cd0000;
-}
-.bullet {
-    color: #9999ff;
-}
-
-#create-form {
-    display: none;
+.logo img {
+    height: 150px;
 }
 
 .user-options-div {
     display: none;
+}
+
+.user {
+    display: none;
+}
+
+/* IDs */
+#create-form {
+    display: none;
+}
+
+#login-message {
+    color: #cd0000;;
 }
