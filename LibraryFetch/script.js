@@ -153,12 +153,13 @@ function Options(option) {
 
 async function GetUsersCheckedOutBooks(userId) {
     try {
+        //calls the API to get the checked out books for the user designated by the logged in userId
         const usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${userId}`);
 
+        //takes the API's JSON result and puts it into an object
         const usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
 
-
-
+        //takes the object and sends it to this function to place the resulting values into the table
         RenderUsersCheckedOutBooksList(usersCheckedOutBooks);
 
      }
@@ -172,16 +173,18 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const userBooks = document.getElementById('user-books');
     const tblBody = document.createElement("tbody");
 
-
+    //itereate once for each row
     for (let i = 0; i < usersCheckedOutBooks.length; i++) {
         const row = document.createElement('tr');
         let cell = Array(5);
         let cellValue = Array(5);
 
+        //iterate once for each column
         for (let c = 0; c < 5; c++){
+            //iterate for each column and create a cell
             cell[c] = document.createElement('td');
 
-            //switch
+            //switch to determine what value will go into the cell based on the column iteration
             switch (c){
                 case 0:
                     cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.barcode);
@@ -200,19 +203,21 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
                     break;
             }
 
-
+            //put the value into the cell
             cell[c].appendChild(cellValue[c]);
+            //put the cell with its value into the row
             row.appendChild(cell[c]);
         }
 
-
+        //put the completed row containing each cell and its value into the table body
         tblBody.appendChild(row);
 
     }
 
-
+    //put the table body into the table
     userBooks.appendChild(tblBody);
 
+    //display the table with the table body containing the rows which contain the cells and their values
     document.body.appendChild(userBooks);
 
 }//end RenderUsersCheckedOutBooksList
