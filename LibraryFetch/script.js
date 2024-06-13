@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
+
     if (storedUser) {
         // Handle a stored user
     }
@@ -145,13 +146,120 @@ function Options(option) {
     }
 
     if (option == 'user') {
-        GetUsersBooks();
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        GetUsersCheckedOutBooks(storedUser.userId);
     }
 }
 
-async function GetUsersBooks()  {
+async function GetUsersCheckedOutBooks(userId) {
+    try{
+        const usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${userId}`);
 
-}
+        const usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
+
+        
+
+        // RenderUsersCheckedOutBooksList(usersCheckedOutBooks);
+
+        const userBooks = document.getElementById('user-books');
+        const tblBody = document.createElement("tbody");
+
+        
+        for (let i = 0; i < usersCheckedOutBooks.length; i++){
+// usersCheckedOutBooks.array.forEach(book => {
+    const row = document.createElement('tr');
+    
+    
+        const cell1 = document.createElement('td');
+        const cellValue1 = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.barcode);
+        cell1.appendChild(cellValue1);
+        row.appendChild(cell1);
+
+        const cell2 = document.createElement('td');
+        const cellValue2 = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.title);
+        cell2.appendChild(cellValue2);
+        row.appendChild(cell2);
+
+        const cell3 = document.createElement('td');
+        const cellValue3 = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.author);
+        cell3.appendChild(cellValue3);
+        row.appendChild(cell3);
+
+        const cell4 = document.createElement('td');
+        const cellValue4 = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.genre);
+        cell4.appendChild(cellValue4);
+        row.appendChild(cell4);
+
+        const cell5 = document.createElement('td');
+        const cellValue5 = document.createTextNode(usersCheckedOutBooks[i].dueDate);
+        cell5.appendChild(cellValue5);
+        row.appendChild(cell5);
+
+        // row.appendChild(cell);
+
+        tblBody.appendChild(row);
+    
+        }
+    
+// });
+
+userBooks.appendChild(tblBody);
+
+document.body.appendChild(userBooks);
+
+
+    }
+    catch (error){
+        console.error("Error fetching User's checked out books: ", error);
+    }
+
+}//end GetUsersCheckedOutBooks
+
+function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
+//mark render books
+
+// const tblBody = document.createElement("tbody");
+
+
+// usersCheckedOutBooks.forEach(book => {
+//     const row = document.createElement('tr');
+
+//     // for(let c = 0; c < 4; c++)
+//     // {
+//         const cell1 = document.createElement('td');
+//         const cellValue1 = document.createTextNode(book.chedkoutBook.barcode);
+//         cell1.appendChild(cellValue1);
+
+//         const cell2 = document.createElement('td');
+//         const cellValue2 = document.createTextNode(book.chedkoutBook.title);
+//         cell2.appendChild(cellValue2);
+
+//         const cell3 = document.createElement('td');
+//         const cellValue3 = document.createTextNode(book.chedkoutBook.author);
+//         cell3.appendChild(cellValue3);
+
+//         const cell4 = document.createElement('td');
+//         const cellValue4 = document.createTextNode(book.chedkoutBook.genre);
+//         cell4.appendChild(cellValue4);
+
+//         const cell5 = document.createElement('td');
+//         const cellValue5 = document.createTextNode(book.dueDate);
+//         cell5.appendChild(cellValue5);
+
+//         row.appendChild(cell);
+
+//         tblBody.appendChild(row);
+    
+//     // }
+    
+    
+// });
+
+// userBooks.appendChild(tblBody);
+
+// document.body.appendChild(userBooks);
+
+}//end RenderUsersCheckedOutBooksList
 
 // Changes the Ask Yenny logo to Oi Yenny
 function YennyUK() {
