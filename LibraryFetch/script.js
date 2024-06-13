@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Handle user not found
                     loginMessage.style.dispay = 'block';
                     loginMessage.textContent = 'That user could not be found.';
+
+                    // Call all books function
                 }
             } catch (error) {
                 console.error('How did we get here? What is the meaning of life?' + error);
