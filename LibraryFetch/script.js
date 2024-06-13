@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     // Handle user not found
                     loginMessage.style.dispay = 'block';
                     loginMessage.textContent = 'That user could not be found.';
+
+                    // Call all books function
                 }
             } catch (error) {
                 console.error('How did we get here? What is the meaning of life?' + error);
@@ -41,8 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     createUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-
-        // Should could a method here to check if user exists
 
         const username = document.getElementById('create-username').value;
         const url = `${port}/Users/${username}`;
@@ -143,6 +143,14 @@ function Options(option) {
         }
         document.getElementById(option).style.display = "block";
     }
+
+    if (option == 'user') {
+        GetUsersBooks();
+    }
+}
+
+async function GetUsersBooks()  {
+
 }
 
 // Changes the Ask Yenny logo to Oi Yenny
