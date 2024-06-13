@@ -1,7 +1,15 @@
+@font-face {
+    font-family: 'Electra';
+    src: url ('fonts/electra.otf') format ('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Element tags */
 
 body {
     font-family: Arial, sans-serif;
+    /* font-family: 'Electra'; */
     background-image: url("images/background.png");
     margin: 0;
     padding: 0;

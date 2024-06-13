@@ -42,8 +42,6 @@ document.addEventListener('DOMContentLoaded', () => {
     createUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        // Should could a method here to check if user exists
-
         const username = document.getElementById('create-username').value;
         const url = `${port}/Users/${username}`;
 
@@ -143,6 +141,14 @@ function Options(option) {
         }
         document.getElementById(option).style.display = "block";
     }
+
+    if (option == 'user') {
+        GetUsersBooks();
+    }
+}
+
+async function GetUsersBooks()  {
+
 }
 
 // Changes the Ask Yenny logo to Oi Yenny
