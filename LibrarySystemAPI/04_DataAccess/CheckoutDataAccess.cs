@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using LibrarySystem.API.Models;
+using LibrarySystem.API.Services;
+using Microsoft.VisualBasic;
+using System.Linq;
 
 namespace LibrarySystem.API.Data;
 
@@ -27,5 +30,17 @@ public class CheckoutDataAccess : ICheckoutDataAccess
         await _checkoutContext.SaveChangesAsync();
 
         return newCheckoutFromService;
+    }
+
+    public async Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromService)
+    {
+
+
+        return await _checkoutContext.Checkouts //ask our context for the collection of Checkout objects in the database
+            .Include(Checkout => Checkout.checkoutUser) //We ask entity framework to also grab the associated User object from the User table
+            .Include(Checkout => Checkout.checkoutBook)
+            .Where(Checkout => Checkout.checkoutUser.userId == userIdFromService) //We then ask for every Checkout by UserId matches the userIdFromService
+            .Where(Checkout => Checkout.status.ToLower() == "out")
+            .ToListAsync(); //Finally, we turn those items into a list
     }
 }
