@@ -23,9 +23,9 @@ public class CheckoutController : ControllerBase
     }
 
     [HttpGet("Books")]
-    public async Task<ActionResult> BooksAvailableForCheckOut(checkoutDTO newCheckout)
+    public async Task<ActionResult> booksAvailableForCheckOut()
     {
-        await _checkoutService.BooksAvailableForCheckoutAsync(newCheckout);
+        await _checkoutService.booksAvailableForCheckoutAsync();
         return Ok("List of available books");
     }
 }

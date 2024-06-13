@@ -29,13 +29,16 @@ public class CheckoutDataAccess : ICheckoutDataAccess
         return newCheckoutFromService;
     }
 
-    public async Task<List<string>> BooksAvailableForCheckoutAsync(checkoutDTO newCheckoutFromService)
+    public async Task<checkoutDTO> booksAvailableForCheckoutAsync()
     {
-                User? patron = await _checkoutContext.Users.SingleOrDefaultAsync(u => u.userId == newCheckoutFromService.userId);
+                List<Checkout> booksAvailable = await _checkoutContext.Checkouts.Select(u => u)
+                    .Include(u => u.checkoutBook)
+                    .Include(u=> u.checkoutUser)
+                    .ToListAsync();
+                booksAvailable.ForEach(x=>Console.WriteLine($"{x.checkoutId} {x.checkoutBook.barcode} {x.checkoutBook.author} {x.checkoutBook.genre} {x.status}"));
 
-        //get the book object
-        Book? tome = await _checkoutContext.Books.SingleOrDefaultAsync(b => b.barcode == newCheckoutFromService.bookBarcode);
-        Checkout checkOut = await _checkoutContext.Checkouts.Select(b => b);
+                List<Book> booksAvailable1 = await _checkoutContext.Books.Select(x=>x).Where(x=>x.genre=="Fantasy").ToListAsync();
+                booksAvailable1.ForEach(x=>Console.WriteLine($"{x.author} {x.barcode} {x.title}"));
         return null;
     }
     

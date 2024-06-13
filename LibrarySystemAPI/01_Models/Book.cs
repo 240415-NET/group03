@@ -9,7 +9,7 @@ public class Book {
     public string title {get; set;}
     public string author {get; set;}
     public string genre {get; set;}
-    public List<Checkout> bookCheckouts {get; set;} = new();
+    //public List<Checkout> bookCheckouts {get; set;} = new();
 
     public Book () {}
 

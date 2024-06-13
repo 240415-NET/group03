@@ -10,10 +10,11 @@ public class Checkout
     public Guid checkoutId {get; set;}
     
     public string status {get; set;}
-    public string dueDate {get; set;}
+    public DateOnly dueDate {get; set;}
 
     public User checkoutUser {get; set;} = new();
     public Book checkoutBook {get; set;} = new();
+    
 
     public Checkout() {}
 
@@ -21,7 +22,8 @@ public class Checkout
     {
         checkoutId = Guid.NewGuid();
         status = "OUT";
-        dueDate = DateOnly.FromDateTime(DateTime.Now).AddDays(14).ToShortDateString();
+        //dueDate = DateOnly.FromDateTime(DateTime.Now).AddDays(14).ToShortDateString();
+        dueDate = DateOnly.FromDateTime(DateTime.Now).AddDays(14);
 
         checkoutUser = _user;
         checkoutBook = _book;
@@ -34,7 +36,7 @@ public class Checkout
         checkoutBook = tome;
         checkoutId = Guid.NewGuid();
         status = bookCheckout.status;
-        dueDate = bookCheckout.dueDate;
+        dueDate = DateOnly.Parse(bookCheckout.dueDate);
     }
 
 }

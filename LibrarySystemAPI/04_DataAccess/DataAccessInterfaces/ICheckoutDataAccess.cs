@@ -5,5 +5,5 @@ namespace LibrarySystem.API.Data;
 public interface ICheckoutDataAccess
 {
     public Task<checkoutDTO> CreateNewCheckoutAsync(checkoutDTO newCheckoutFromService);
-    public Task<checkoutDTO> BooksAvailableForCheckoutAsync(checkoutDTO newCheckoutFromService);
+    public Task<checkoutDTO> booksAvailableForCheckoutAsync();
 }
