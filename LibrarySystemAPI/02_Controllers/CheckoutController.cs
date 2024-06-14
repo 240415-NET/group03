@@ -41,10 +41,8 @@ public class CheckoutController : ControllerBase
 
     
    [HttpPatch("Checkin")]
-    public async Task<ActionResult> UpdateCheckin(CheckinUpdateDTO checkinStatusChange)
+    public async Task<ActionResult> UpdateCheckin(int barcode)
     {
-          await _checkoutService.UpdateCheckinAsync(checkinStatusChange);
-
-          return Ok($"Book {checkinStatusChange.barcode} check status has been changed to: IN");
+          return Ok(await _checkoutService.UpdateCheckinAsync(barcode));
     } 
 }

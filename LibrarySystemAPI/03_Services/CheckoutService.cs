@@ -24,8 +24,8 @@ public class CheckoutService : ICheckoutService
 
     }
 
-     public async Task<int> UpdateCheckinAsync(CheckinUpdateDTO checkinFromController)
+    public async Task<string> UpdateCheckinAsync(int barcodeFromController)
     {
-        return await _checkoutDataAccess.UpdateCheckinInDBAsync(checkinFromController);
+        return await _checkoutDataAccess.UpdateCheckinInDBAsync(barcodeFromController);
     }
 }

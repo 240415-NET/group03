@@ -7,5 +7,5 @@ public interface ICheckoutService
 {
     public Task<checkoutDTO> CreateNewCheckoutAsync(checkoutDTO newCheckoutFromController);
     public Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromController);
-    public Task<int> UpdateCheckinAsync(CheckinUpdateDTO checkinFromController);
+    public Task<string> UpdateCheckinAsync(int barcodeFromController);
 }

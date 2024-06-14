@@ -44,18 +44,16 @@ public class CheckoutDataAccess : ICheckoutDataAccess
             .ToListAsync(); //Finally, we turn those items into a list
     }
 
-    public async Task<int> UpdateCheckinInDBAsync(CheckinUpdateDTO statusChangeFromCheckoutService)
+    public async Task<string> UpdateCheckinInDBAsync(int barcodeFromServices)
     {
-        //We create a nullable user object to hold our database return
-        //We will query the database for a user who corresponds to the UsernameUpdateDTO's oldUsername string
-        Checkin? checkoutToUpdate = await _checkoutContext.Checkouts
-            .SingleOrDefaultAsync(Checkin => Checkin.checkoutBookbarcode == statusChangeFromCheckoutService.barcode);
+  
+        Checkout? checkoutToUpdate = await _checkoutContext.Checkouts
+            .SingleOrDefaultAsync(Checkin => Checkin.checkoutBook.barcode == barcodeFromServices);
 
-        //checkoutToUpdate.status = "IN";
-        
+        checkoutToUpdate.status = "IN";
         await _checkoutContext.SaveChangesAsync();
-
-        return statusChangeFromCheckoutService.barcode;
+        return $"Book {barcodeFromServices} check status has been changed to: IN";
 
     }
+
 }
