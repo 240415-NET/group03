@@ -10,36 +10,27 @@ MVP:
 # Backend
 ## User
 1. Create - Team Done :)
-2. Read - TO-DO! **Mike&Veda** Done:)
+2. Read - Mike&Veda Done:)
 3. Update - Yenny Done :)
     - username 
 4. Delete - Omar Done :)
 
 ## Checkout
 1. Checkout book 
-    - List the books and choose the book in order to checkout TO-DO! **Omar**
+    - List the books and choose the book in order to checkout  Done :)
     - by book barcode - Mike Done :)
-    - ensure book is available - TO-DO!  **Omar**
+    - ensure book is available - Omar Done :)
 2. Checkin book
     - by book title and username - TO-DO!  **Yenny**
     - ensure book is out by username - TO-DO! **Yenny**
-3. List checked out books for a user - TO-DO! **Mike&Veda** Done :)
+3. List checked out books for a user - Mike&Veda Done :)
 
 
 ## Backend Misc
 - try catch
 - messages
-- CORS to program file - **Ross** Done :)
+- CORS to program file - Ross Done :)
 
-# Frontend
-## Login
-
-## Checkout/in books
-
-## List Books
-
-
-
-
-Day 2:
-Create a User Account
+## Frontend UI - **Ross** 
+## Wire FrontEnd and BackEnd - Ross&Mike
+## Login - **Ross**
