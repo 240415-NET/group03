@@ -15,6 +15,7 @@
             <div class="logo">
                 <img src="images/logo.png" alt="Ask Yenny Logo" id="logo-image">
             </div>
+            <p class="user-options-div"><a href="#" onclick="Logout(event)">Logout</a></p>
         </header>
         <nav class="user-options-div">
             <a href="#" onclick="Options('all')">ALL BOOKS</a>
@@ -22,9 +23,9 @@
             <a href="#" onclick="Options('check')">CHECK IN/OUT</a>
         </nav>
         <main>
-            <div id="login-div">
+            <div class="login-div">
                 <h1 id="login-header">Sign In to Ask Yenny!</h1>
-                <form id="sign-in-form" class="login-elements">
+                <form id="sign-in-form" class="login-elements login-div">
                     <input type="text" id="login-username" placeholder="Username" required>
                     <button type="submit">Submit</button>
                 </form>
@@ -33,7 +34,7 @@
                     <input type="text" id="create-username" placeholder="Username" required>
                     <button type="submit">Create</button>
                 </form>
-                <p><a href="#" onclick="toggleLoginElementsDisplay(event)" id="toggle-link">Create New User</a></p>
+                <p><a href="#" onclick="toggleLoginElementsDisplay(event)" id="toggle-link" class="login-div">Create New User</a></p>
                 <p id="login-message"></p>
             </div>
 
@@ -65,8 +66,8 @@
                 <div class="check options" id="check" style="display: none;">
 
                     <h1>What can I help you find today?</h1>
-                    <input type="text" placeholder="INPUT BARCODE">
-                    <button>Ask</button>
+                    <input type="text" placeholder="INPUT BARCODE" id="check-input">
+                    <button id="check-button">Ask</button>
                 </div>
 
             </div>
@@ -74,11 +75,11 @@
 
         <footer>
             <div class="footer-links">
-                <a href="#"><span class="bullet">&bull;</span> Make Yenny Your Homepage</a>
+                <a target="_blank" href="https://support.microsoft.com/en-us/microsoft-edge/change-your-browser-home-page-a531e1b8-ed54-d057-0262-cc5983a065c6"><span class="bullet">&bull;</span> Make Your Homepage</a>
                 <a href="#" onclick="YennyUK()"><span class="bullet">&bull;</span> Ask Yenny U.K.</a>
-                <a href="#"><span class="bullet">&bull;</span> Advertise On Yenny</a>
-                <a href="#"><span class="bullet">&bull;</span> Become An Affiliate</a>
-                <a href="#"><span class="bullet">&bull;</span> Investor Relations</a>
+                <a href="#"><span class="bullet">&bull;</span> Advertise</a>
+                <a href="https://en.wikipedia.org/wiki/Pyramid_scheme" target="_blank"><span class="bullet">&bull;</span> Become An Affiliate</a>
+                <a href="https://en.wikipedia.org/wiki/Ponzi_scheme" target="_blank"><span class="bullet">&bull;</span> Investor Relations</a>
             </div>
         </footer>
     </div>

@@ -2,20 +2,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const port = "http://localhost:5185"; // port number for localhost
 
-    const loginDiv = document.getElementById('login-div');
-    const userOptionsDiv = document.getElementsByClassName('user-options-div');
-
     const signInForm = document.getElementById('sign-in-form');
     const createUserForm = document.getElementById('create-form');
-
+    const checkInput = document.getElementById('check-input');
     const loginMessage = document.getElementById('login-message');
+    const checkButton = document.getElementById('check-button');
 
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
+    // Variable that's set dynamically to determine whether clicking the check-button element
+    // results in a checkout call or a  check in call to the API
+    let checkedOut = false;
 
     if (storedUser) {
         // Handle a stored user
+        HandleLogInOut();
     }
+
+    checkInput.addEventListener('input', async () => {
+        // Each time the check-input field is changed, run a check on the input against
+        // the user's books. If it's checked out, make changes, otherwise... don't.
+        let usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${storedUser.userId}`);
+        let usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
+        let barcode = checkInput.value;
+
+        for (let i = 0; i < usersCheckedOutBooks.length; i++) {
+            checkedOut = barcode == usersCheckedOutBooks[i].checkoutBook.barcode;
+        }
+        if (checkedOut) {
+            // Change button text for checkout to check in
+            checkButton.textContent = 'Check In';
+        } else if (!checkedOut && checkButton.textContent == 'Check In') {
+            checkButton.textContent = 'Ask';
+        }
+    });
 
     // Login Event Listener
     signInForm.addEventListener('submit', async (event) => {
@@ -24,11 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (username) {
             try {
-                const user = await GetUser(username);
+                const user = await GetUser(username, port);
                 if (user) {
                     // const userJson = await user.json();
                     localStorage.setItem('user', JSON.stringify(user));
-                    HandledLoggedInUser();
+                    HandleLogInOut();
                 } else {
                     // Handle user not found
                     loginMessage.style.dispay = 'block';
@@ -51,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (username) {
             try {
-                const userExists = await GetUser(username);
+                const userExists = await GetUser(username, port);
 
                 if (!userExists) {
                     // User does not exist
@@ -72,40 +92,28 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
-
-    function HandledLoggedInUser(username) {
-        loginDiv.style.display = 'none';
-
-        for (i = 0; i < userOptionsDiv.length; i++) {
-            userOptionsDiv[i].style.display = 'block';
-        }
-    }
-
-    async function GetUser(username) {
-        const url = `${port}/Users/${username}`;
-
-        try {
-            const response = await fetch(url);
-
-            if (response.status === 404) {
-                return null;
-            }
-
-            if (!response.ok) {
-                console.error('Unable to get user: ' + response.status);
-                return null;
-            }
-
-            const json = await response.json();
-            return json;
-        } catch (error) {
-            console.error(error);
-            return null;
-        }
-    }
-
-
 }); // End DOMContentLoaded
+
+function HandleLogInOut() {
+    const loginDiv = document.getElementsByClassName('login-div');
+    const userOptionsDiv = document.getElementsByClassName('user-options-div');
+    let var1 = loginDiv[0].style.display == 'none' ? 'block' : 'none';
+    let var2 = loginDiv[0].style.display == 'none' ? 'none' : 'block';
+
+    for (let i = 0; i < loginDiv.length; i++) {
+        loginDiv[i].style.display = var1;
+    }
+
+    for (let i = 0; i < userOptionsDiv.length; i++) {
+        userOptionsDiv[i].style.display = var2;
+    }
+}
+
+function Logout(event) {
+    event.preventDefault();
+    localStorage.removeItem('user');
+    HandleLogInOut();
+}
 
 // Function that displays/hides the create user form
 function toggleLoginElementsDisplay(event) {
@@ -154,7 +162,30 @@ function Options(option) {
     }
 }
 
-//mark 1
+
+async function GetUser(username, port) {
+    const url = `${port}/Users/${username}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (response.status === 404) {
+            return null;
+        }
+
+        if (!response.ok) {
+            console.error('Unable to get user: ' + response.status);
+            return null;
+        }
+
+        const json = await response.json();
+        return json;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
 async function GetAllAvailableBooks() {
     try {
         //calls the API to get all available books (those that are not checked out)
@@ -173,7 +204,7 @@ async function GetAllAvailableBooks() {
 
 }//end GetAllAvailableBooks
 
-//mark 2
+
 function RenderAllAvailableBooksList(allAvailableBooks) {
     const allBooks = document.getElementById('all-books');
     const allBooksTableBody = document.getElementById("all-books-body");
@@ -308,4 +339,3 @@ function YennyUK() {
         image.src = current;
     }
 }
-
