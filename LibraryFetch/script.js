@@ -49,13 +49,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     // const userJson = await user.json();
                     localStorage.setItem('user', JSON.stringify(user));
                     HandleLogInOut();
+                    // Call all books function
+                    GetAllAvailableBooks();
                 } else {
                     // Handle user not found
                     loginMessage.style.dispay = 'block';
                     loginMessage.textContent = 'That user could not be found.';
-
-                    // Call all books function
-                    GetAllAvailableBooks();
                 }
             } catch (error) {
                 console.error('How did we get here? What is the meaning of life?' + error);
@@ -237,7 +236,7 @@ function RenderAllAvailableBooksList(allAvailableBooks) {
             }
 
             //put the value into the cell
-            console.log(cellValue[c]);
+            // console.log(cellValue[c]);
             cell[c].appendChild(cellValue[c]);
             //put the cell with its value into the row
             row.appendChild(cell[c]);

@@ -10,7 +10,7 @@
 body {
     font-family: Arial, sans-serif;
     /* font-family: 'Electra'; */
-    background-image: url("images/background.png");
+    
     margin: 0;
     padding: 0;
 }
@@ -66,6 +66,20 @@ main {
     justify-content: center;
 }
 
+.background-wrapper {
+    background-image: url("images/background.png");
+    position: flex;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
 .bullet {
     color: #9999ff;
 }
@@ -85,6 +99,9 @@ main {
 }
 
 .container {
+    z-index: 1;
+    position: relative;
+    margin-top: 100vh;
     width: 80%;
     margin: 0 auto;
 }
