@@ -23,4 +23,9 @@ public class CheckoutService : ICheckoutService
         return await _checkoutDataAccess.GetCheckedOutBooksbyUserIdAsync(userIdFromController);
 
     }
+
+     public async Task<int> UpdateCheckinAsync(CheckinUpdateDTO checkinFromController)
+    {
+        return await _checkoutDataAccess.UpdateCheckinInDBAsync(checkinFromController);
+    }
 }
