@@ -21,7 +21,7 @@ public class CheckoutController : ControllerBase
         await _checkoutService.CreateNewCheckoutAsync(newCheckout);
         return Ok("You are now checked out");
     }
-    [HttpGet("/{userId}")]
+    [HttpGet("{userId}")]
     public async Task<ActionResult<List<Checkout>>> GetCheckedOutBooksbyUserId(Guid userId)
     {
         
