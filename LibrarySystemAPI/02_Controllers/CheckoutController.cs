@@ -22,10 +22,28 @@ public class CheckoutController : ControllerBase
         return Ok("You are now checked out");
     }
 
+
     [HttpGet("Books")]
     public async Task<List<Book>> booksAvailableForCheckOut()
     {
         return await _checkoutService.booksAvailableForCheckoutAsync();
         
     }
+    [HttpGet("/{userId}")]
+    public async Task<ActionResult<List<Checkout>>> GetCheckedOutBooksbyUserId(Guid userId)
+    {
+        
+         try
+        {
+            //Creating a list to eventually *hopefully* return to our front end
+            List<Checkout> usersCheckedOutBooks = await _checkoutService.GetCheckedOutBooksbyUserIdAsync(userId);
+
+            return Ok(usersCheckedOutBooks);
+        }
+        catch(Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+
+  }
 }
