@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     loginMessage.textContent = 'That user could not be found.';
 
                     // Call all books function
+                    GetAllAvailableBooks();
                 }
             } catch (error) {
                 console.error('How did we get here? What is the meaning of life?' + error);
@@ -156,8 +157,11 @@ function Options(option) {
     if (option == 'user') {
         const storedUser = JSON.parse(localStorage.getItem('user'));
         GetUsersCheckedOutBooks(storedUser.userId);
+    } else if (option == 'all') {
+        GetAllAvailableBooks();
     }
 }
+
 
 async function GetUser(username, port) {
     const url = `${port}/Users/${username}`;
@@ -181,6 +185,76 @@ async function GetUser(username, port) {
         return null;
     }
 }
+
+async function GetAllAvailableBooks() {
+    try {
+        //calls the API to get all available books (those that are not checked out)
+        const allAvailableBooksResponse = await fetch(`http://localhost:5185/Checkout/Books`);
+
+        //takes the API's JSON result and puts it into an object
+        const allAvailableBooks = await allAvailableBooksResponse.json();
+
+        //takes the object and sends it to this function to place the resulting values into the table
+        RenderAllAvailableBooksList(allAvailableBooks);
+
+    }
+    catch (error) {
+        console.error("Error fetching all available books: ", error);
+    }
+
+}//end GetAllAvailableBooks
+
+
+function RenderAllAvailableBooksList(allAvailableBooks) {
+    const allBooks = document.getElementById('all-books');
+    const allBooksTableBody = document.getElementById("all-books-body");
+
+    //itereate once for each row
+    for (let i = 0; i < allAvailableBooks.length; i++) {
+        const row = document.createElement('tr');
+        let cell = Array(4);
+        let cellValue = Array(4);
+
+        //iterate once for each column
+        for (let c = 0; c < 4; c++) {
+            //iterate for each column and create a cell
+            cell[c] = document.createElement('td');
+
+            //switch to determine what value will go into the cell based on the column iteration
+            switch (c) {
+                case 0:
+                    cellValue[c] = document.createTextNode(allAvailableBooks[i].barcode);
+                    break;
+                case 1:
+                    cellValue[c] = document.createTextNode(allAvailableBooks[i].title);
+                    break;
+                case 2:
+                    cellValue[c] = document.createTextNode(allAvailableBooks[i].author);
+                    break;
+                case 3:
+                    cellValue[c] = document.createTextNode(allAvailableBooks[i].genre);
+                    break;
+            }
+
+            //put the value into the cell
+            console.log(cellValue[c]);
+            cell[c].appendChild(cellValue[c]);
+            //put the cell with its value into the row
+            row.appendChild(cell[c]);
+        }
+
+        //put the completed row containing each cell and its value into the table body
+        allBooksTableBody.appendChild(row);
+
+    }
+
+    //put the table body into the table
+    allBooks.appendChild(allBooksTableBody);
+
+    //display the table with the table body containing the rows which contain the cells and their values
+    document.getElementById('all').appendChild(allBooks);
+
+}//end RenderAllAvailableBooksList
 
 async function GetUsersCheckedOutBooks(userId) {
     try {
