@@ -23,5 +23,5 @@ public class checkoutDTO
         userId = _checkout.checkoutUser.userId;
         bookBarcode = _checkout.checkoutBook.barcode;
     }
-
+    
 }

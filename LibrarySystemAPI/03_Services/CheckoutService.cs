@@ -18,9 +18,13 @@ public class CheckoutService : ICheckoutService
         return newCheckoutFromController;
     }
 
+    public async Task<List<Book>> booksAvailableForCheckoutAsync()
+    {
+        return await _checkoutDataAccess.booksAvailableForCheckoutAsync(); 
+    }
+
     public async Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromController)
     {
         return await _checkoutDataAccess.GetCheckedOutBooksbyUserIdAsync(userIdFromController);
-
     }
 }
