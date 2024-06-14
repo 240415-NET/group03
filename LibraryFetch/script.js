@@ -171,7 +171,7 @@ async function GetUsersCheckedOutBooks(userId) {
 
 function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const userBooks = document.getElementById('user-books');
-    const tblBody = document.createElement("tbody");
+    const tblBody = document.getElementById("user-table-body");
 
     //itereate once for each row
     for (let i = 0; i < usersCheckedOutBooks.length; i++) {
@@ -218,7 +218,7 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     userBooks.appendChild(tblBody);
 
     //display the table with the table body containing the rows which contain the cells and their values
-    document.body.appendChild(userBooks);
+    document.getElementById('user').appendChild(userBooks);
 
 }//end RenderUsersCheckedOutBooksList
 
