@@ -22,14 +22,14 @@ public class CheckoutController : ControllerBase
         return Ok("You are now checked out");
     }
 
-
     [HttpGet("Books")]
     public async Task<List<Book>> booksAvailableForCheckOut()
     {
         return await _checkoutService.booksAvailableForCheckoutAsync();
         
     }
-    [HttpGet("/{userId}")]
+    
+    [HttpGet("{userId}")]
     public async Task<ActionResult<List<Checkout>>> GetCheckedOutBooksbyUserId(Guid userId)
     {
         

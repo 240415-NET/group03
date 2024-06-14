@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const storedUser = JSON.parse(localStorage.getItem('user'));
 
+
     if (storedUser) {
         // Handle a stored user
     }
@@ -145,13 +146,81 @@ function Options(option) {
     }
 
     if (option == 'user') {
-        GetUsersBooks();
+        const storedUser = JSON.parse(localStorage.getItem('user'));
+        GetUsersCheckedOutBooks(storedUser.userId);
     }
 }
 
-async function GetUsersBooks()  {
+async function GetUsersCheckedOutBooks(userId) {
+    try {
+        //calls the API to get the checked out books for the user designated by the logged in userId
+        const usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${userId}`);
 
-}
+        //takes the API's JSON result and puts it into an object
+        const usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
+
+        //takes the object and sends it to this function to place the resulting values into the table
+        RenderUsersCheckedOutBooksList(usersCheckedOutBooks);
+
+     }
+    catch (error) {
+        console.error("Error fetching User's checked out books: ", error);
+    }
+
+}//end GetUsersCheckedOutBooks
+
+function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
+    const userBooks = document.getElementById('user-books');
+    const tblBody = document.createElement("tbody");
+
+    //itereate once for each row
+    for (let i = 0; i < usersCheckedOutBooks.length; i++) {
+        const row = document.createElement('tr');
+        let cell = Array(5);
+        let cellValue = Array(5);
+
+        //iterate once for each column
+        for (let c = 0; c < 5; c++){
+            //iterate for each column and create a cell
+            cell[c] = document.createElement('td');
+
+            //switch to determine what value will go into the cell based on the column iteration
+            switch (c){
+                case 0:
+                    cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.barcode);
+                    break;
+                case 1:
+                    cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.title);
+                    break;
+                case 2:
+                    cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.author);
+                    break;
+                case 3:
+                    cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].checkoutBook.genre);
+                    break;
+                case 4:
+                    cellValue[c] = document.createTextNode(usersCheckedOutBooks[i].dueDate);
+                    break;
+            }
+
+            //put the value into the cell
+            cell[c].appendChild(cellValue[c]);
+            //put the cell with its value into the row
+            row.appendChild(cell[c]);
+        }
+
+        //put the completed row containing each cell and its value into the table body
+        tblBody.appendChild(row);
+
+    }
+
+    //put the table body into the table
+    userBooks.appendChild(tblBody);
+
+    //display the table with the table body containing the rows which contain the cells and their values
+    document.body.appendChild(userBooks);
+
+}//end RenderUsersCheckedOutBooksList
 
 // Changes the Ask Yenny logo to Oi Yenny
 function YennyUK() {
