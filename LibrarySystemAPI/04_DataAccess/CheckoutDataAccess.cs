@@ -70,4 +70,17 @@ public class CheckoutDataAccess : ICheckoutDataAccess
             .ToListAsync(); //Finally, we turn those items into a list
     }
 
+
+    public async Task<string> UpdateCheckinInDBAsync(int barcodeFromServices)
+    {
+  
+        Checkout? checkoutToUpdate = await _checkoutContext.Checkouts
+            .SingleOrDefaultAsync(Checkin => Checkin.checkoutBook.barcode == barcodeFromServices);
+
+        checkoutToUpdate.status = "IN";
+        await _checkoutContext.SaveChangesAsync();
+        return $"Book {barcodeFromServices} check status has been changed to: IN";
+
+    }
+
 }

@@ -11,4 +11,6 @@ public interface ICheckoutService
 
     public Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromController);
 
+    public Task<string> UpdateCheckinAsync(int barcodeFromController);
+
 }

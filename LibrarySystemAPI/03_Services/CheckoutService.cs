@@ -27,4 +27,9 @@ public class CheckoutService : ICheckoutService
     {
         return await _checkoutDataAccess.GetCheckedOutBooksbyUserIdAsync(userIdFromController);
     }
+
+    public async Task<string> UpdateCheckinAsync(int barcodeFromController)
+    {
+        return await _checkoutDataAccess.UpdateCheckinInDBAsync(barcodeFromController);
+    }
 }

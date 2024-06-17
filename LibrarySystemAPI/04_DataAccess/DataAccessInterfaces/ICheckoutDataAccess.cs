@@ -10,4 +10,5 @@ public interface ICheckoutDataAccess
 
     public Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromService);
 
+    public Task<string> UpdateCheckinInDBAsync(int barcodeFromServices);
 }

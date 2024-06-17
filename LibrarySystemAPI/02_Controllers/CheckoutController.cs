@@ -45,5 +45,14 @@ public class CheckoutController : ControllerBase
             return BadRequest(e.Message);
         }
 
-  }
+
+    }
+
+    
+   [HttpPatch("Checkin")]
+    public async Task<ActionResult> UpdateCheckin(int barcode)
+    {
+          return Ok(await _checkoutService.UpdateCheckinAsync(barcode));
+    } 
+
 }
