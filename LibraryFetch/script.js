@@ -208,6 +208,16 @@ function RenderAllAvailableBooksList(allAvailableBooks) {
     const allBooks = document.getElementById('all-books');
     const allBooksTableBody = document.getElementById("all-books-body");
 
+    const headers = ["Barcode", "Title", "Author", "Genre"];
+
+    allBooksTableBody.innerHTML = '';
+
+    headers.forEach((header) => {
+        let head = document.createElement('th');
+        head.textContent = header;
+        allBooksTableBody.appendChild(head);
+    });
+
     //itereate once for each row
     for (let i = 0; i < allAvailableBooks.length; i++) {
         const row = document.createElement('tr');
@@ -276,6 +286,16 @@ async function GetUsersCheckedOutBooks(userId) {
 function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const userBooks = document.getElementById('user-books');
     const tblBody = document.getElementById("user-table-body");
+
+    const headers = ["Barcode", "Title", "Author", "Genre", "Due Date"];
+    
+    tblBody.innerHTML = '';
+
+    headers.forEach((header) => {
+        let head = document.createElement('th');
+        head.textContent = header;
+        tblBody.appendChild(head);
+    });
 
     //itereate once for each row
     for (let i = 0; i < usersCheckedOutBooks.length; i++) {
