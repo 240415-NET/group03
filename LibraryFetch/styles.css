@@ -133,3 +133,8 @@ nav a {
 #login-message {
     color: #cd0000;;
 }
+
+.all{
+    overflow-y: auto;
+    max-height: 410px;
+}
