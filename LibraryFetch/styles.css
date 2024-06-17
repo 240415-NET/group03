@@ -123,6 +123,8 @@ nav a {
 
 .user {
     display: none;
+    overflow-y: auto;
+    max-height: 410px;
 }
 
 /* IDs */
