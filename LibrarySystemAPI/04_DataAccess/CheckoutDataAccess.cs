@@ -36,7 +36,7 @@ public class CheckoutDataAccess : ICheckoutDataAccess
     public async Task<List<Book>> booksAvailableForCheckoutAsync()
     {
                 //retrieve the list of checked out books from the Checkouts table
-                List<Checkout> booksCheckedOut = await _checkoutContext.Checkouts.Where(u => u.status=="out")
+                List<Checkout> booksCheckedOut = await _checkoutContext.Checkouts.Where(u => u.status.ToUpper() == "OUT")
                     .Include(u => u.checkoutBook)
                     .Include(u=> u.checkoutUser)
                     .ToListAsync();
@@ -75,8 +75,9 @@ public class CheckoutDataAccess : ICheckoutDataAccess
     {
   
         Checkout? checkoutToUpdate = await _checkoutContext.Checkouts
+            .Where(Checkin => Checkin.status.ToUpper() == "OUT")
             .SingleOrDefaultAsync(Checkin => Checkin.checkoutBook.barcode == barcodeFromServices);
-
+        
         checkoutToUpdate.status = "IN";
         await _checkoutContext.SaveChangesAsync();
         return $"Book {barcodeFromServices} check status has been changed to: IN";
