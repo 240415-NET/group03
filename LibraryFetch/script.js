@@ -8,7 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const loginMessage = document.getElementById('login-message');
     const checkButton = document.getElementById('check-button');
 
-    const storedUser = JSON.parse(localStorage.getItem('user'));
+    let storedUser = JSON.parse(localStorage.getItem('user'));
+    //Add a reference for the check button
+    //const checkinButton = document.getElementById('check-button');
 
     // Variable that's set dynamically to determine whether clicking the check-button element
     // results in a checkout call or a  check in call to the API
@@ -91,6 +93,75 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     });
+
+   //Adding in checkinButton listener 
+   checkButton.addEventListener('click',  async() => {
+   
+
+  
+   
+    let barcode = checkInput.value;
+
+    if (checkedOut) {
+        // Change button text for checkout to check in
+        //checkButton.textContent = 'Check In';
+
+        //do the check in call via the fetch
+
+        //http://localhost:5185/Checkout/Checkin?barcode=45353
+
+        // User does not exist
+        const response = fetch(`http://localhost:5185/Checkout/Checkin?barcode=${barcode}`, {
+            method: 'PATCH',
+        });
+        if (response.ok) {
+            // user created so log in
+        } else {
+            console.error('Could not update to IN' + error);
+        }
+
+        //let usersCheckedInBooksResponse = await fetch(`http://localhost:5185/Checkout/Checkin?barcode=${barcode}`);
+
+    } else {
+       
+        const allAvailableBooksResponse = await fetch(`http://localhost:5185/Checkout/Books`);
+        const allBooks = await allAvailableBooksResponse.json();
+
+        let storedUser2 = JSON.parse(localStorage.getItem('user'));
+
+       // Object.keys(data).map(k => data[k])
+       if( allBooks.find(o => o.barcode === parseInt(barcode)) ) {
+             
+        let checkoutObj = {
+            checkoutId: "3fa85f64-5717-4562-b3fc-2c963f66afa6", //contructor will give it a guid
+            status: "OUT",
+            dueDate: "2024-06-21", //come backk to this
+            userId: storedUser2.userId, //this does not change to user 
+            bookBarcode: barcode
+        };
+        
+        //http://localhost:5185/Checkout
+
+        const checkoutPostResponse = fetch(`http://localhost:5185/Checkout`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type' : 'application/json'
+                    },
+                    body: JSON.stringify(checkoutObj)
+                });
+                if (checkoutPostResponse.ok) {
+                    // user created so log in
+                } else {
+                    console.error('Could not checkout' + error);
+                }        
+
+       } 
+
+    }
+
+     
+    });
+
 }); // End DOMContentLoaded
 
 function HandleLogInOut() {
@@ -158,6 +229,7 @@ function Options(option) {
         GetUsersCheckedOutBooks(storedUser.userId);
     } else if (option == 'all') {
         GetAllAvailableBooks();
+        
     }
 }
 
@@ -195,6 +267,8 @@ async function GetAllAvailableBooks() {
 
         //takes the object and sends it to this function to place the resulting values into the table
         RenderAllAvailableBooksList(allAvailableBooks);
+
+        //return allAvailableBooks;
 
     }
     catch (error) {
