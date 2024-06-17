@@ -21,7 +21,15 @@ public class CheckoutController : ControllerBase
         await _checkoutService.CreateNewCheckoutAsync(newCheckout);
         return Ok("You are now checked out");
     }
-    [HttpGet("/{userId}")]
+
+    [HttpGet("Books")]
+    public async Task<List<Book>> booksAvailableForCheckOut()
+    {
+        return await _checkoutService.booksAvailableForCheckoutAsync();
+        
+    }
+    
+    [HttpGet("{userId}")]
     public async Task<ActionResult<List<Checkout>>> GetCheckedOutBooksbyUserId(Guid userId)
     {
         
@@ -37,6 +45,7 @@ public class CheckoutController : ControllerBase
             return BadRequest(e.Message);
         }
 
+
     }
 
     
@@ -45,4 +54,5 @@ public class CheckoutController : ControllerBase
     {
           return Ok(await _checkoutService.UpdateCheckinAsync(barcode));
     } 
+
 }
