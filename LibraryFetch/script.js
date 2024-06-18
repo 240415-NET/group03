@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkInput = document.getElementById('check-input');
     const loginMessage = document.getElementById('login-message');
     const checkButton = document.getElementById('check-button');
-    
+
 
     let storedUser;
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         );
 
         bookAvailable = allBooks.some(x => x.barcode == barcode);
-        
+
         console.log(checkedOut);
 
         if (checkedOut) {
@@ -187,13 +187,13 @@ document.addEventListener('DOMContentLoaded', () => {
 }); // End DOMContentLoaded
 
 
-function HandleCheckErrorMessage(text){
+function HandleCheckErrorMessage(text) {
     const errorMessage = document.getElementById('check-error-message');
-    if(text){
+    if (text) {
         errorMessage.style.display = "block";
         errorMessage.textContent = text;
     }
-    else{
+    else {
         errorMessage.style.display = "none";
 
     }
@@ -277,7 +277,7 @@ function toggleLoginElementsDisplay(event) {
 function Options(option) {
 
     HandleCheckErrorMessage();
-    
+
     if (option != null) {
         let allOptions = document.getElementsByClassName("options");
         for (i = 0; i < allOptions.length; i++) {
@@ -293,7 +293,7 @@ function Options(option) {
         GetAllAvailableBooks();
 
     }
-    
+
 }
 
 async function GetUser(username) {
@@ -499,4 +499,27 @@ function SetUsersBooksText(username) {
     const link = document.getElementById('link-users-books');
     link.textContent = username + "'S BOOKS";
     link.style.textTransform = 'uppercase';
+}
+
+async function DeleteUser() {
+    const storedUser = JSON.parse(localStorage.getItem('user'));
+
+    let usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${storedUser.userId}`);
+    let usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
+
+    usersCheckedOutBooks.forEach(async (book) => {
+        await fetch(`http://localhost:5185/Checkout/Checkin?barcode=${book.checkoutBook.barcode}`, {
+            method: 'PATCH'
+        })
+    });
+
+    Options('all');
+    localStorage.removeItem('user');
+    HandleLogInOut();
+
+    await fetch(`http://localhost:5185/Users/${storedUser.userName}`, {
+        method: 'DELETE'
+    });
+
+    // Then, make delete call to remove user
 }
