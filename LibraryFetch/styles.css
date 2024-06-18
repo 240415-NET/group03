@@ -18,7 +18,7 @@ body {
 button,
 .button {
     padding: 10px 20px;
-    width: 100px;
+    width: 125px;
     background-color: #cd0000;
     color: white;
     border: none;
@@ -60,6 +60,11 @@ main {
 }
 
 /* Classes */
+
+.all{
+    overflow-y: auto;
+    max-height: 410px;
+}
 
 .all table, .user table {
     display: flex;
@@ -132,11 +137,6 @@ nav a {
     display: none;
 }
 
-#login-message {
+#login-message, #check-error-message {
     color: #cd0000;;
-}
-
-.all{
-    overflow-y: auto;
-    max-height: 410px;
 }
