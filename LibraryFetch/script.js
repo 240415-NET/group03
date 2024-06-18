@@ -1,14 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    const port = "http://localhost:5185"; // port number for localhost
-
     const signInForm = document.getElementById('sign-in-form');
     const createUserForm = document.getElementById('create-form');
     const checkInput = document.getElementById('check-input');
     const loginMessage = document.getElementById('login-message');
     const checkButton = document.getElementById('check-button');
 
-    let storedUser = JSON.parse(localStorage.getItem('user'));
+    let storedUser;
+
+    if (JSON.parse(localStorage.getItem('user'))) {
+        SetStoredUser();
+    }
+
+    function SetStoredUser() {
+        storedUser = JSON.parse(localStorage.getItem('user'));
+    }
+
     //Add a reference for the check button
     //const checkinButton = document.getElementById('check-button');
 
@@ -21,35 +27,47 @@ document.addEventListener('DOMContentLoaded', () => {
         HandleLogInOut();
     }
 
+    // Event listener makes changes when check-in/out input is updated
     checkInput.addEventListener('input', async () => {
         // Each time the check-input field is changed, run a check on the input against
         // the user's books. If it's checked out, make changes, otherwise... don't.
+        SetStoredUser();
         let usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${storedUser.userId}`);
         let usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
         let barcode = checkInput.value;
 
-        for (let i = 0; i < usersCheckedOutBooks.length; i++) {
-            checkedOut = barcode == usersCheckedOutBooks[i].checkoutBook.barcode;
-        }
+        // for (let i = 0; i < usersCheckedOutBooks.length; i++) {
+        //     checkedOut = barcode == usersCheckedOutBooks[i].checkoutBook.barcode;
+        // }
+
+        checkedOut = usersCheckedOutBooks.some(book =>
+            book.checkoutBook.barcode == barcode &&
+            book.status === "OUT"
+        );
+
+        console.log(checkedOut);
+
         if (checkedOut) {
             // Change button text for checkout to check in
-            checkButton.textContent = 'Check In';
+            SetCheckButtonText('Check In');
         } else if (!checkedOut && checkButton.textContent == 'Check In') {
-            checkButton.textContent = 'Ask';
+            SetCheckButtonText();
         }
     });
 
     // Login Event Listener
     signInForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const username = document.getElementById('login-username').value;
+        const username = document.getElementById('login-input').value;
 
         if (username) {
             try {
-                const user = await GetUser(username, port);
+                const user = await GetUser(username);
                 if (user) {
                     // const userJson = await user.json();
                     localStorage.setItem('user', JSON.stringify(user));
+                    SetStoredUser();
+                    SetUsersBooksText(username);
                     HandleLogInOut();
                     // Call all books function
                     GetAllAvailableBooks();
@@ -62,17 +80,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('How did we get here? What is the meaning of life?' + error);
             }
         }
+        document.getElementById('login-input').value = '';
     });
 
+    // Listener for create new user form
     createUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const username = document.getElementById('create-username').value;
-        const url = `${port}/Users/${username}`;
+        const username = document.getElementById('create-input').value;
+        const url = `http://localhost:5185/Users/${username}`;
 
         if (username) {
             try {
-                const userExists = await GetUser(username, port);
+                const userExists = await GetUser(username);
 
                 if (!userExists) {
                     // User does not exist
@@ -92,74 +112,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Could not create user' + error);
             }
         }
+        document.getElementById('create-input').value = '';
     });
 
-   //Adding in checkinButton listener 
-   checkButton.addEventListener('click',  async() => {
-   
+    //Adding in checkinButton listener 
+    checkButton.addEventListener('click', async () => {
 
-  
-   
-    let barcode = checkInput.value;
+        let barcode = checkInput.value;
+        SetStoredUser();
 
-    if (checkedOut) {
-        // Change button text for checkout to check in
-        //checkButton.textContent = 'Check In';
+        if (checkedOut) {
+            // Change button text for checkout to check in
+            //checkButton.textContent = 'Check In';
 
-        //do the check in call via the fetch
-
-        //http://localhost:5185/Checkout/Checkin?barcode=45353
-
-        // User does not exist
-        const response = fetch(`http://localhost:5185/Checkout/Checkin?barcode=${barcode}`, {
-            method: 'PATCH',
-        });
-        if (response.ok) {
-            // user created so log in
+            //do the check in call via the fetch
+            // User does not exist
+            const response = fetch(`http://localhost:5185/Checkout/Checkin?barcode=${barcode}`, {
+                method: 'PATCH',
+            });
         } else {
-            console.error('Could not update to IN' + error);
-        }
 
-        //let usersCheckedInBooksResponse = await fetch(`http://localhost:5185/Checkout/Checkin?barcode=${barcode}`);
+            const allAvailableBooksResponse = await fetch(`http://localhost:5185/Checkout/Books`);
+            const allBooks = await allAvailableBooksResponse.json();
 
-    } else {
-       
-        const allAvailableBooksResponse = await fetch(`http://localhost:5185/Checkout/Books`);
-        const allBooks = await allAvailableBooksResponse.json();
+            // Object.keys(data).map(k => data[k])
+            if (allBooks.find(o => o.barcode === parseInt(barcode))) {
 
-        let storedUser2 = JSON.parse(localStorage.getItem('user'));
+                let checkoutObj = {
+                    checkoutId: "3fa85f64-5717-4562-b3fc-2c963f66afa6", //contructor will give it a guid
+                    status: "OUT",
+                    dueDate: "2024-06-21", //come backk to this
+                    userId: storedUser.userId, //this does not change to user 
+                    bookBarcode: barcode
+                };
 
-       // Object.keys(data).map(k => data[k])
-       if( allBooks.find(o => o.barcode === parseInt(barcode)) ) {
-             
-        let checkoutObj = {
-            checkoutId: "3fa85f64-5717-4562-b3fc-2c963f66afa6", //contructor will give it a guid
-            status: "OUT",
-            dueDate: "2024-06-21", //come backk to this
-            userId: storedUser2.userId, //this does not change to user 
-            bookBarcode: barcode
-        };
-        
-        //http://localhost:5185/Checkout
-
-        const checkoutPostResponse = fetch(`http://localhost:5185/Checkout`, {
+                const checkoutPostResponse = fetch(`http://localhost:5185/Checkout`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type' : 'application/json'
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(checkoutObj)
                 });
-                if (checkoutPostResponse.ok) {
-                    // user created so log in
-                } else {
-                    console.error('Could not checkout' + error);
-                }        
-
-       } 
-
-    }
-
-     
+            }
+        }
+        checkInput.value = '';
+        SetCheckButtonText();
     });
 
 }); // End DOMContentLoaded
@@ -167,8 +164,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function HandleLogInOut() {
     const loginDiv = document.getElementsByClassName('login-div');
     const userOptionsDiv = document.getElementsByClassName('user-options-div');
+
     let var1 = loginDiv[0].style.display == 'none' ? 'block' : 'none';
     let var2 = loginDiv[0].style.display == 'none' ? 'none' : 'block';
+
+
 
     for (let i = 0; i < loginDiv.length; i++) {
         loginDiv[i].style.display = var1;
@@ -177,12 +177,29 @@ function HandleLogInOut() {
     for (let i = 0; i < userOptionsDiv.length; i++) {
         userOptionsDiv[i].style.display = var2;
     }
+
+    if (JSON.parse(localStorage.getItem('user'))) {
+        const username = JSON.parse(localStorage.getItem('user')).userName;
+        SetUsersBooksText(username);
+    }
+
 }
 
 function Logout(event) {
     event.preventDefault();
+    Options('all');
     localStorage.removeItem('user');
     HandleLogInOut();
+}
+
+function SetCheckButtonText(text) {
+    const button = document.getElementById('check-button');
+
+    if (text) {
+        button.textContent = text;
+    } else {
+        button.textContent = "Ask";
+    }
 }
 
 // Function that displays/hides the create user form
@@ -213,6 +230,9 @@ function toggleLoginElementsDisplay(event) {
     } else {
         headingText.textContent = "Sign In to Ask Yenny!";
     }
+
+    document.getElementById('login-input').value = '';
+    document.getElementById('create-input').value = '';
 }
 
 function Options(option) {
@@ -229,13 +249,12 @@ function Options(option) {
         GetUsersCheckedOutBooks(storedUser.userId);
     } else if (option == 'all') {
         GetAllAvailableBooks();
-        
+
     }
 }
 
-
-async function GetUser(username, port) {
-    const url = `${port}/Users/${username}`;
+async function GetUser(username) {
+    const url = `http://localhost:5185/Users/${username}`;
 
     try {
         const response = await fetch(url);
@@ -362,7 +381,7 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const tblBody = document.getElementById("user-table-body");
 
     const headers = ["Barcode", "Title", "Author", "Genre", "Due Date"];
-    
+
     tblBody.innerHTML = '';
 
     headers.forEach((header) => {
@@ -431,4 +450,10 @@ function YennyUK() {
     } else {
         image.src = current;
     }
+}
+
+function SetUsersBooksText(username) {
+    const link = document.getElementById('link-users-books');
+    link.textContent = username + "'S BOOKS";
+    link.style.textTransform = 'uppercase';
 }
