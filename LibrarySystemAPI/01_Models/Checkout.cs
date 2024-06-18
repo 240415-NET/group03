@@ -37,7 +37,8 @@ public class Checkout
         checkoutBook = tome;
         checkoutId = Guid.NewGuid();
         status = bookCheckout.status;
-        dueDate = DateOnly.Parse(bookCheckout.dueDate);
+        // dueDate = DateOnly.Parse(bookCheckout.dueDate);
+        dueDate = DateOnly.FromDateTime(DateTime.Now).AddDays(14);
     }
 
 }

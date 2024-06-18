@@ -26,7 +26,7 @@ public class UserController : ControllerBase
 
     }
 
- [HttpDelete("Users/{username}")]
+ [HttpDelete("{username}")]
   public async Task<ActionResult<string>> DeleteUser(string username)
     {
 
