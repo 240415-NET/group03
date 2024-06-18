@@ -15,7 +15,7 @@ public class BookController : ControllerBase
         _bookService = bookServiceFromBuilder;
     }
 
-    [HttpGet("Books/{bookBarcode}")]
+    [HttpGet("{bookBarcode}")]
     public async Task<ActionResult<Book>> GetBookByBarcode(int bookBarcode)
     {
         return Ok( await _bookService.GetBookByBarcodeAsync(bookBarcode));
