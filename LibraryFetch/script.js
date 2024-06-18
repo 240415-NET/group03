@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const signInForm = document.getElementById('sign-in-form');
     const createUserForm = document.getElementById('create-form');
     const checkInput = document.getElementById('check-input');
-    const loginMessage = document.getElementById('login-message');
     const checkButton = document.getElementById('check-button');
 
 
@@ -75,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Login Event Listener
     signInForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        HandleLoginErrorMessage();
         const username = document.getElementById('login-input').value;
 
         if (username) {
@@ -90,8 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     GetAllAvailableBooks();
                 } else {
                     // Handle user not found
-                    loginMessage.style.dispay = 'block';
-                    loginMessage.textContent = 'That user could not be found.';
+                    HandleLoginErrorMessage('That user could not be found.');
                 }
             } catch (error) {
                 console.error('How did we get here? What is the meaning of life?' + error);
@@ -103,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listener for create new user form
     createUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
+        HandleLoginErrorMessage();
 
         const username = document.getElementById('create-input').value;
         const url = `http://localhost:5185/Users/${username}`;
@@ -122,8 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         console.error('Could not create user' + error);
                     }
                 } else {
-                    loginMessage.style.display = 'bock';
-                    loginMessage.textContent = 'User may already exist.';
+                    HandleLoginErrorMessage('User may already exist.');
                 }
             } catch (error) {
                 console.error('Could not create user' + error);
@@ -186,6 +185,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 }); // End DOMContentLoaded
 
+function HandleLoginErrorMessage(text) {
+    const errorMessage = document.getElementById('login-message');
+    if (text) {
+        errorMessage.style.display = "block";
+        errorMessage.textContent = text;
+    } else {
+        errorMessage.style.display = 'none';
+    }
+}
+
 
 function HandleCheckErrorMessage(text) {
     const errorMessage = document.getElementById('check-error-message');
@@ -245,6 +254,8 @@ function SetCheckButtonText(text) {
 function toggleLoginElementsDisplay(event) {
 
     event.preventDefault();
+
+    HandleLoginErrorMessage();
 
     const elements = document.getElementsByClassName('login-elements');
     const headingText = document.getElementById('login-header');
