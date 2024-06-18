@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkInput = document.getElementById('check-input');
     const loginMessage = document.getElementById('login-message');
     const checkButton = document.getElementById('check-button');
+    
 
     let storedUser;
 
@@ -22,6 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // results in a checkout call or a  check in call to the API
     let checkedOut = false;
 
+    let bookAvailable = false;
+
     if (storedUser) {
         // Handle a stored user
         HandleLogInOut();
@@ -29,12 +32,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Event listener makes changes when check-in/out input is updated
     checkInput.addEventListener('input', async () => {
+        HandleCheckErrorMessage();
         // Each time the check-input field is changed, run a check on the input against
         // the user's books. If it's checked out, make changes, otherwise... don't.
         SetStoredUser();
         let usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${storedUser.userId}`);
         let usersCheckedOutBooks = await usersCheckedOutBooksResponse.json();
         let barcode = checkInput.value;
+
+        //in the event a book is available, rename the button Ask to CheckOut
+        const allAvailableBooksResponse = await fetch(`http://localhost:5185/Checkout/Books`);
+        const allBooks = await allAvailableBooksResponse.json();
 
         // for (let i = 0; i < usersCheckedOutBooks.length; i++) {
         //     checkedOut = barcode == usersCheckedOutBooks[i].checkoutBook.barcode;
@@ -45,12 +53,21 @@ document.addEventListener('DOMContentLoaded', () => {
             book.status === "OUT"
         );
 
+        bookAvailable = allBooks.some(x => x.barcode == barcode);
+        
         console.log(checkedOut);
 
         if (checkedOut) {
             // Change button text for checkout to check in
             SetCheckButtonText('Check In');
         } else if (!checkedOut && checkButton.textContent == 'Check In') {
+            SetCheckButtonText();
+        }
+
+        if (bookAvailable) {
+            // Change button text for ask to checkout 
+            SetCheckButtonText('Check Out');
+        } else if (!bookAvailable && checkButton.textContent == 'Check Out') {
             SetCheckButtonText();
         }
     });
@@ -117,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //Adding in checkinButton listener 
     checkButton.addEventListener('click', async () => {
-
+        HandleCheckErrorMessage();  //call to make it not display
         let barcode = checkInput.value;
         SetStoredUser();
 
@@ -141,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let checkoutObj = {
                     checkoutId: "3fa85f64-5717-4562-b3fc-2c963f66afa6", //contructor will give it a guid
                     status: "OUT",
-                    dueDate: "2024-06-21", //come backk to this
+                    dueDate: "", //come backk to this
                     userId: storedUser.userId, //this does not change to user 
                     bookBarcode: barcode
                 };
@@ -154,12 +171,34 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(checkoutObj)
                 });
             }
+            else {
+                //in case a book is checked out and the user attempts to check it out again
+                //show a message "This book is already checked-out"
+                HandleCheckErrorMessage("This book is already checked-out");
+            }
+
+
+
         }
         checkInput.value = '';
         SetCheckButtonText();
     });
 
 }); // End DOMContentLoaded
+
+
+function HandleCheckErrorMessage(text){
+    const errorMessage = document.getElementById('check-error-message');
+    if(text){
+        errorMessage.style.display = "block";
+        errorMessage.textContent = text;
+    }
+    else{
+        errorMessage.style.display = "none";
+
+    }
+
+}
 
 function HandleLogInOut() {
     const loginDiv = document.getElementsByClassName('login-div');
@@ -236,6 +275,9 @@ function toggleLoginElementsDisplay(event) {
 }
 
 function Options(option) {
+
+    HandleCheckErrorMessage();
+    
     if (option != null) {
         let allOptions = document.getElementsByClassName("options");
         for (i = 0; i < allOptions.length; i++) {
@@ -251,6 +293,7 @@ function Options(option) {
         GetAllAvailableBooks();
 
     }
+    
 }
 
 async function GetUser(username) {
