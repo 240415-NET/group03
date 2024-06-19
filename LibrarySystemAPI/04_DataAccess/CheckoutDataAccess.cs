@@ -32,7 +32,7 @@ public class CheckoutDataAccess : ICheckoutDataAccess
         return newCheckoutFromService;
     }
 
-
+    //mark Omar03
     public async Task<List<Book>> booksAvailableForCheckoutAsync()
     {
                 //retrieve the list of checked out books from the Checkouts table
@@ -57,7 +57,7 @@ public class CheckoutDataAccess : ICheckoutDataAccess
         return booksAvailable;
     }
     
-
+    //mark Veda03
     public async Task<List<Checkout>> GetCheckedOutBooksbyUserIdAsync(Guid userIdFromService)
     {
 

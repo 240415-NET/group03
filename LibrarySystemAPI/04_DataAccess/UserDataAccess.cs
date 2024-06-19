@@ -30,6 +30,7 @@ public class UserDataAccess : IUserDataAccess
         await _context.SaveChangesAsync();
         return userFromServiceClass;
     }
+    //mark Yenny04
      public async Task<string> UpdateUserInDBAsync(UsernameUpdateDTO usernamesToSwapFromUserService)
     {
         //We create a nullable user object to hold our database return

@@ -21,13 +21,13 @@ public class CheckoutController : ControllerBase
         await _checkoutService.CreateNewCheckoutAsync(newCheckout);
         return Ok("You are now checked out");
     }
-
+    //mark Omar01
     [HttpGet("Books")]
     public async Task<List<Book>> booksAvailableForCheckOut()
     {
         return await _checkoutService.booksAvailableForCheckoutAsync();
     }
-
+    //mark Veda01
     [HttpGet("{userId}")]
     public async Task<ActionResult<List<Checkout>>> GetCheckedOutBooksbyUserId(Guid userId)
     {

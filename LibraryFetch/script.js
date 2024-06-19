@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // #############################################
-
+    //mark Yenny01
     // ##### CHECK IN-OUT CLICK EVENT LISTENER ##### <-----------------
     checkButton.addEventListener('click', async () => {
         HandleCheckErrorMessage();  //call to make it not display
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (allBooks.find(o => o.barcode === parseInt(barcode))) {
 
                 let checkoutObj = {
-                    checkoutId: "3fa85f64-5717-4562-b3fc-2c963f66afa6", //contructor will give it a guid
+                    checkoutId: "", //constructor will give it a guid
                     status: "OUT",
-                    dueDate: "", //come back to this
+                    dueDate: "", //constructor will set this date to current date + 14days
                     userId: storedUser.userId, //this does not change to user 
                     bookBarcode: barcode
                 };
@@ -208,7 +208,7 @@ async function DeleteUser() {
         method: 'DELETE'
     });
 }
-
+//mark Mike01
 // ##### GET ALL AVAILABLE BOOKS ##### <-----------------
 async function GetAllAvailableBooks() {
     try {
@@ -334,7 +334,7 @@ function Options(option) {
         GetAllAvailableBooks();
     }
 }
-
+//mark Mike02
 // ##### RENDER ALL AVAILABLE BOOKS LIST <-----------------
 function RenderAllAvailableBooksList(allAvailableBooks) {
     const allBooks = document.getElementById('all-books');

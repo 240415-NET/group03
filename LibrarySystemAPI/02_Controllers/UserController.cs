@@ -32,7 +32,7 @@ public class UserController : ControllerBase
              await _userService.DeleteUserAsync(username);
              return Ok($"User {username} got deleted");
     }
-
+    //mark Yenny02
    [HttpPatch("UserPatch")]
     public async Task<ActionResult> UpdateUserByUsername(UsernameUpdateDTO usernamesToSwap)
     {
