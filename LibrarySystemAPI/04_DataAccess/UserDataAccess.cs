@@ -18,7 +18,7 @@ public class UserDataAccess : IUserDataAccess
         await _context.SaveChangesAsync();
         return userFromServiceClass;
     }
-
+/*
     public async Task<string?> DeleteUserInDBAsync(string userFromServiceClass)
     {
         //in swagger we enter a name
@@ -44,7 +44,7 @@ public class UserDataAccess : IUserDataAccess
         return usernamesToSwapFromUserService.newUserName;
 
     }
-
+*/
     public async Task<User?> GetUserFromDBByUsernameAsync(string usernameToFindFromUserService)
     {
         User? foundUser = await _context.Users.SingleOrDefaultAsync(user => user.userName == usernameToFindFromUserService);   

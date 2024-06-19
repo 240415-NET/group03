@@ -25,7 +25,7 @@ public class UserController : ControllerBase
              return Ok(newUser);
 
     }
-
+/*
  [HttpDelete("Delete/{username}")]
   public async Task<ActionResult<string>> DeleteUser(string username)
     {
@@ -40,7 +40,7 @@ public class UserController : ControllerBase
 
           return Ok($"{usernamesToSwap.oldUserName}'s username has been changed to: {usernamesToSwap.newUserName}");
     } 
-
+*/
      [HttpGet("/Users/{username}")] 
     public async Task<ActionResult<User>> GetUserByUsername(string username)
     {   

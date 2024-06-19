@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         checkedOut = usersCheckedOutBooks.some(book =>
             book.checkoutBook.barcode == barcode &&
-            book.status === "OUT"
+            book.status.ToUpperCase() === "OUT"
         );
 
         bookAvailable = allBooks.some(x => x.barcode == barcode);

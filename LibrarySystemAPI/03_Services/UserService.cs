@@ -18,7 +18,7 @@ public class UserService : IUserService
        return userFromControllerClass; //do not need ok, this is a Task User 
        //Task action result this when we need the Ok();
     }
-
+/*
     public async Task<string> UpdateUsernameAsync(UsernameUpdateDTO usernamesToSwapFromController)
     {
         return await _userDataAccess.UpdateUserInDBAsync(usernamesToSwapFromController);
@@ -30,7 +30,7 @@ public class UserService : IUserService
        return userFromControllerClass; //do not need ok, this is a Task User 
        //Task action result this when we need the Ok();
     }
-    
+   */ 
     public async Task<User> GetUserByUsernameAsync(string usernameToFindFromController)
     {
         if(String.IsNullOrEmpty(usernameToFindFromController))
