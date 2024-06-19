@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         SetStoredUser(newUserToLogin); // sets user to local data
                         toggleLoginElementsDisplay(event); // Resets login div to default landing
                         HandleLogInOut(); // turns on the logged in display
+                        GetAllAvailableBooks();
                     } else {
                         console.error('Could not create user' + error);
                     }
@@ -258,12 +259,10 @@ async function GetUsersCheckedOutBooks(userId) {
 
         //takes the object and sends it to this function to place the resulting values into the table
         RenderUsersCheckedOutBooksList(usersCheckedOutBooks);
-
     }
     catch (error) {
         console.error("Error fetching User's checked out books: ", error);
     }
-
 }
 
 // ##### HANDLE LOGIN ERROR MESSAGE ##### <-----------------
@@ -397,6 +396,8 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const tblBody = document.getElementById("user-table-body");
     const headers = ["Barcode", "Title", "Author", "Genre", "Due Date"];
     tblBody.innerHTML = '';
+    let counter = 0;
+
     headers.forEach((header) => {
         let head = document.createElement('th');
         head.textContent = header;
@@ -405,6 +406,7 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
 
     //itereate once for each row
     for (let i = 0; i < usersCheckedOutBooks.length; i++) {
+        counter = counter + 1;
         const row = document.createElement('tr');
         let cell = Array(5);
         let cellValue = Array(5);
@@ -444,6 +446,10 @@ function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     userBooks.appendChild(tblBody);
     //display the table with the table body containing the rows which contain the cells and their values
     document.getElementById('user').appendChild(userBooks);
+
+    if (counter == 0) {
+        tblBody.innerHTML = 'No books currently checked out.';
+    }
 }
 
 // ##### SET CHECK BUTTON TEXT ##### <-----------------
