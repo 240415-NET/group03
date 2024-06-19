@@ -186,6 +186,32 @@ document.addEventListener('DOMContentLoaded', () => {
 // #############################################
 
 // ##### DELETE USER ##### <-----------------
+function BoldNavLink(option) {
+    const navItems = document.getElementById('navigation').getElementsByTagName('a');
+
+    switch (option) {
+        case 'all':
+            NotBoldify(navItems);
+            navItems[0].style.fontWeight = 'bold';
+            break;
+        case 'user':
+            NotBoldify(navItems);
+            navItems[1].style.fontWeight = 'bold';
+            break;
+        case 'check':
+            NotBoldify(navItems);
+            navItems[2].style.fontWeight = 'bold';
+            break;
+    }
+
+    function NotBoldify(navItems) {
+        Array.from(navItems).forEach(anchor => {
+            anchor.style.fontWeight = 'normal';
+        });
+    }
+}
+
+// ##### DELETE USER ##### <-----------------
 async function DeleteUser() {
     const storedUser = JSON.parse(localStorage.getItem('user'));
     let usersCheckedOutBooksResponse = await fetch(`http://localhost:5185/Checkout/${storedUser.userId}`);
@@ -220,6 +246,7 @@ async function GetAllAvailableBooks() {
 
         //takes the object and sends it to this function to place the resulting values into the table
         RenderAllAvailableBooksList(allAvailableBooks);
+        BoldNavLink('all');
     }
     catch (error) {
         console.error("Error fetching all available books: ", error);
@@ -333,6 +360,8 @@ function Options(option) {
     } else if (option == 'all') {
         GetAllAvailableBooks();
     }
+
+    BoldNavLink(option);
 }
 
 // ##### RENDER ALL AVAILABLE BOOKS LIST <-----------------
