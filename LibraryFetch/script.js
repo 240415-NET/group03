@@ -208,7 +208,7 @@ async function DeleteUser() {
         method: 'DELETE'
     });
 }
-//mark Mike01
+
 // ##### GET ALL AVAILABLE BOOKS ##### <-----------------
 async function GetAllAvailableBooks() {
     try {
@@ -247,7 +247,7 @@ async function GetUser(username) {
         return null;
     }
 }
-
+//mark Mike01
 // ##### GET USER'S CHECKED OUT BOOKS ##### <-----------------
 async function GetUsersCheckedOutBooks(userId) {
     try {
@@ -334,7 +334,7 @@ function Options(option) {
         GetAllAvailableBooks();
     }
 }
-//mark Mike02
+
 // ##### RENDER ALL AVAILABLE BOOKS LIST <-----------------
 function RenderAllAvailableBooksList(allAvailableBooks) {
     const allBooks = document.getElementById('all-books');
@@ -389,7 +389,7 @@ function RenderAllAvailableBooksList(allAvailableBooks) {
     //display the table with the table body containing the rows which contain the cells and their values
     document.getElementById('all').appendChild(allBooks);
 }
-
+//mark Mike02
 // ##### RENDER USER'S CHECKED OUT BOOKS LIST ##### <-----------------
 function RenderUsersCheckedOutBooksList(usersCheckedOutBooks) {
     const userBooks = document.getElementById('user-books');
