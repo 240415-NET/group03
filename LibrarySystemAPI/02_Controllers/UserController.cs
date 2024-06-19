@@ -29,11 +29,8 @@ public class UserController : ControllerBase
  [HttpDelete("Delete/{username}")]
   public async Task<ActionResult<string>> DeleteUser(string username)
     {
-
              await _userService.DeleteUserAsync(username);
-
              return Ok($"User {username} got deleted");
-
     }
 
    [HttpPatch("UserPatch")]

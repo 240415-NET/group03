@@ -22,13 +22,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Sets StoredUser from localStorage
-    function SetStoredUser() {
-        storedUser = JSON.parse(localStorage.getItem('user'));
+    function SetStoredUser(user) {
+
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+            storedUser = JSON.parse(localStorage.getItem('user'));
+        } else {
+            storedUser = JSON.parse(localStorage.getItem('user'));
+        }
     }
 
     // #############################################
 
-    // ##### CHECK IN-OUT CLICK EVENT LISTENER #####
+    // ##### CHECK IN-OUT CLICK EVENT LISTENER ##### <-----------------
     checkButton.addEventListener('click', async () => {
         HandleCheckErrorMessage();  //call to make it not display
         let barcode = checkInput.value;
@@ -72,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
         SetCheckButtonText();
     });
 
-    // ##### CREATE USER SUBMIT EVENT LISTENER #####
+    // ##### CREATE USER SUBMIT EVENT LISTENER ##### <-----------------
     createUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         HandleLoginErrorMessage();
@@ -91,6 +97,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     if (response.ok) {
                         // user created so log in
+                        const newUserToLogin = await GetUser(username); // Gets json for newly created user
+                        SetStoredUser(newUserToLogin); // sets user to local data
+                        toggleLoginElementsDisplay(event); // Resets login div to default landing
+                        HandleLogInOut(); // turns on the logged in display
                     } else {
                         console.error('Could not create user' + error);
                     }
@@ -104,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('create-input').value = '';
     });
 
-    // ###### INPUT EVENT LISTENER #####
+    // ###### INPUT EVENT LISTENER ##### <-----------------
     // Event listener makes changes when check-in/out input is updated
     checkInput.addEventListener('input', async () => {
         HandleCheckErrorMessage();
@@ -141,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ##### LOGIN EVENT LISTENER #####
+    // ##### LOGIN EVENT LISTENER ##### <-----------------
     signInForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         HandleLoginErrorMessage();
@@ -152,8 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const user = await GetUser(username);
                 if (user) {
                     // const userJson = await user.json();
-                    localStorage.setItem('user', JSON.stringify(user));
-                    SetStoredUser();
+                    // localStorage.setItem('user', JSON.stringify(user));
+                    SetStoredUser(user);
                     SetUsersBooksText(username);
                     HandleLogInOut();
                     // Call all books function
@@ -193,7 +203,7 @@ async function DeleteUser() {
     HandleLogInOut();
 
     // Removes user from db
-    await fetch(`http://localhost:5185/Users/${storedUser.userName}`, {
+    await fetch(`http://localhost:5185/Users/Delete/${storedUser.userName}`, {
         method: 'DELETE'
     });
 }
@@ -487,13 +497,18 @@ function toggleLoginElementsDisplay(event) {
 
 // Changes the Ask Yenny logo to Oi Yenny
 function YennyUK() {
+    const link = document.getElementById('uk-link');
     const image = document.getElementById('logo-image');
     const current = "images/logo.png";
     const newUrl = "images/yenny-uk.png";
 
     if (image.src.endsWith(current)) {
+        // Oi Yenny
         image.src = newUrl;
+        link.textContent = 'Oi Yenny U.S.';
     } else {
+        // Ask Yenny
         image.src = current;
+        link.textContent = 'Ask Yenny U.K.';
     }
 }
